@@ -106,6 +106,13 @@
         </td>
       </tr>
       <tr>
+        <th>Required Due Date</th>
+        <td>
+          <span tal:condition="here/getDueDate"
+             tal:content="python:here.toLocalizedTime(here.getDueDate())" />
+        </td>
+      </tr>
+      <tr>
         <th i18n:translate="poi_label_submitted_by">Submitted by</th>
         <td
             tal:define="creator python:pas_member.info(here.Creator())"

@@ -53,6 +53,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import getSiteEncoding
 from Products.CMFPlone.utils import safe_unicode
+from Products.PopupCalendarWidget.PopupCalendarWidget import PopupCalendarWidget
 from collective.watcherlist.utils import get_member_email
 from plone.memoize import instance
 from zope.interface import implements
@@ -215,13 +216,28 @@ schema = Schema((
     ),
 
     StringField(
+        name='dueDate',
+        widget=PopupCalendarWidget(
+            label=_(u'Poi_label_dueDate',
+                    default=u"Required Due Date"),
+            description=_(
+                u'Poi_help_dueDate',
+                default=u"Select the date when the issue must be completed."),
+            ifFormat='%m/%d/%Y',
+            showsTime='false',
+        ),
+        required=True,
+        validators=('DateValidator')
+    ),
+
+    StringField(
         name='targetRelease',
         widget=SelectionWidget(
             label=_(u'Poi_label_targetRelease',
                     default=u"Target release"),
             description=_(
                 u'Poi_help_targetRelease',
-                default=u"Release this issue is targetted to be fixed in"),
+                default=u"Release this issue is targeted to be fixed in"),
             condition="object/isUsingReleases",
         ),
         vocabulary='getReleasesVocab',

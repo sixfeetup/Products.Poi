@@ -35,6 +35,7 @@ from Products.CMFCore import DirectoryView
 from Products.CMFCore import utils as cmfutils
 from zope.i18nmessageid import MessageFactory
 
+from Products.Poi.browser import validators
 from Products.Poi.config import ADD_CONTENT_PERMISSIONS
 from Products.Poi.config import DEFAULT_ADD_CONTENT_PERMISSION
 from Products.Poi.config import PROJECTNAME
