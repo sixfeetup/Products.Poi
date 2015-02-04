@@ -9,6 +9,13 @@
       directory="resources" />
 
   <browser:page
+     name="poi-issue-export"
+     for="Products.Poi.interfaces.ITracker"
+     permission="zope2.View"
+     class=".exporter.CSVExport"
+     />
+
+  <browser:page
      name="log"
      for="Products.Poi.interfaces.ITracker"
      permission="zope.Public"

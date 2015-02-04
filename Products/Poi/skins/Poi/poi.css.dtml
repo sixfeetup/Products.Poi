@@ -40,6 +40,10 @@
 
 /* Search table */
 
+#export-btn {
+    display:inline;
+}
+
 .issue-search-results {
     width: 100%;
 }
@@ -48,6 +52,7 @@
     float: right;
     position: relative;
     top: 5px;
+    clear: both;
 }
 
 #poi_advanced_search {

@@ -13,6 +13,8 @@
              alt="RSS Feed"
              title="RSS feed of these search results" />
       </a>
+        <button id="export-btn"
+            tal:attributes="onclick string:window.location.href='${here/absolute_url}/@@poi-issue-export?${rssQueryString}'">Export CSV</button>
     </div>
   </metal:block>
 
