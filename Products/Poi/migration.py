@@ -236,3 +236,8 @@ def migrate_tracker_watchers(context):
 def recook_resources(context):
     context.portal_javascripts.cookResources()
     context.portal_css.cookResources()
+
+
+def run_calendarwidget_dependancies(context):
+    context.runAllImportStepsFromProfile(
+        'profile-Products.PopupCalendarWidget:default')

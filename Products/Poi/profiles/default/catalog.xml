@@ -6,4 +6,5 @@
   <column value="getSeverity"/>
   <column value="getTargetRelease"/>
   <column value="getResponsibleManager"/>
+  <column value="getDueDate"/>
 </object>

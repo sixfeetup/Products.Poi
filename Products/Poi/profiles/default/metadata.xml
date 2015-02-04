@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>2007</version>
+  <version>2009</version>
   <dependencies>
     <dependency>profile-Products.AddRemoveWidget:default</dependency>
     <dependency>profile-Products.DataGridField:default</dependency>
+    <dependency>profile-Products.PopupCalendarWidget:default</dependency>
   </dependencies>
 </metadata>

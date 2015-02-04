@@ -1,16 +1,28 @@
+import logging
 from Products.CMFCore.utils import getToolByName
 
 
-def add_catalog_indexes(site, logger):
+PROFILE_ID = 'profile-Products.Poi:default'
+
+
+def add_catalog_indexes(context, logger=None):
     """Add our indexes to the catalog.
 
     Doing it here instead of in profiles/default/catalog.xml means we
     do not need to reindex those indexes after every reinstall.
     """
-    catalog = getToolByName(site, 'portal_catalog')
+
+    if logger is None:
+        # Called as upgrade step: define our own logger.
+        logger = logging.getLogger('Poi')
+
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'catalog')
+
+    catalog = getToolByName(context, 'portal_catalog')
     indexes = catalog.indexes()
     wanted = ("getRelease", "getArea", "getIssueType", "getSeverity",
-              "getTargetRelease", "getResponsibleManager")
+              "getTargetRelease", "getResponsibleManager", "getDueDate")
 
     missing = [w for w in wanted if w not in indexes]
     if missing:

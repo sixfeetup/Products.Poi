@@ -127,5 +127,20 @@
       handler="Products.Poi.migration.recook_resources"
       profile="Products.Poi:default" />
 
+  <gs:upgradeStep
+      title="Install new due date index"
+      description="Install Products.PopupCalendarWidget dependancy and new due date index"
+      source="2007"
+      destination="2008"
+      handler="Products.Poi.setuphandlers.add_catalog_indexes"
+      profile="Products.Poi:default" />
+
+  <gs:upgradeStep
+      title="Install Products.PopupCalendarWidget dependancy"
+      description="Install Products.PopupCalendarWidget dependancy"
+      source="2008"
+      destination="2009"
+      handler="Products.Poi.migration.run_calendarwidget_dependancies"
+      profile="Products.Poi:default" />
 
 </configure>

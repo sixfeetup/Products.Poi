@@ -39,7 +39,6 @@ class CSVExport(BrowserView):
         writer.writerow(header)
         for issue in issues:
             row = []
-            obj = issue.getObject()
             row.append(issue.getId)
             row.append(issue.Title.encode('UTF-8'))
             row.append(issue.getTargetRelease.encode('utf-8'))
@@ -47,7 +46,7 @@ class CSVExport(BrowserView):
             row.append(issue.getIssueType.encode('utf-8'))
             row.append(issue.getSeverity.encode('utf-8'))
             row.append(issue.getResponsibleManager.encode('utf-8'))
-            row.append(obj.getDueDate())
+            row.append(issue.getDueDate)
             row.append("|".join(issue.Subject))
             row.append(issue.review_state.encode('utf-8'))
             row.append('')
