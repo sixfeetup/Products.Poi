@@ -40,7 +40,7 @@ class CSVExport(BrowserView):
         for issue in issues:
             row = []
             row.append(issue.getId)
-            row.append(issue.Title.encode('UTF-8'))
+            row.append(issue.Title)
             row.append(issue.getTargetRelease.encode('utf-8'))
             row.append(issue.getArea.encode('utf-8'))
             row.append(issue.getIssueType.encode('utf-8'))
