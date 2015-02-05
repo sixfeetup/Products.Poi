@@ -2,4 +2,6 @@
 <object name="portal_javascripts">
   <javascript id="++resource++poi/poi.js" />
   <javascript id="++resource++poi/URI.js" insert-before="++resource++poi/poi.js" />
+  <javascript id="table_sorter.js" enabled="False"
+      expression="python:not context.restrictedTraverse('@@plone_interface_info').provides('Products.Poi.interfaces.ITracker')" />
 </object>

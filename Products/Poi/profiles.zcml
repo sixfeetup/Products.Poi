@@ -143,4 +143,12 @@
       handler="Products.Poi.migration.run_calendarwidget_dependancies"
       profile="Products.Poi:default" />
 
+  <gs:upgradeStep
+      title="Run javascript import step to disable table sorter on poi"
+      description="Apply our changes to the JS registry for URI.js and disable table_sorter"
+      source="2009"
+      destination="2010"
+      handler="Products.Poi.migration.run_javascript_step"
+      profile="Products.Poi:default" />
+
 </configure>
