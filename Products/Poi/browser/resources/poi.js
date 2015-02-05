@@ -39,13 +39,17 @@ jQuery(function($) {
             var newheader = $("<div><a></a></div>");
             if (qsmap.hasOwnProperty('sort_on') && qsmap.sort_on == sortheaders[i]) {
                 $(newheader).attr('class','sorted-header');
-                newuri.search(function(data) {
-                    data.sort_order = 'descending';
-                });
-                if (qsmap.hasOwnProperty('sort_order') && qsmap.sort_order == 'ascending')
-                    $(newheader).append('<img src="arrowUp.png"/>');
-                else
-                    $(newheader).append('<img src="arrowDown.png"/>');
+                if (qsmap.hasOwnProperty('sort_order') && qsmap.sort_order == 'ascending') {
+                    newuri.search(function(data) {
+                        data.sort_order = 'descending';
+                    });
+                    $(newheader).append('<img src="arrowUp.png" width="9" height="6" />');
+                } else {
+                    newuri.search(function(data) {
+                        data.sort_order = 'ascending';
+                    });
+                    $(newheader).append('<img src="arrowDown.png" width="9" height="6" />');
+                }
             };
             $('a', newheader).attr('href', newuri);
             return newheader;
