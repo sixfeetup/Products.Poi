@@ -4,6 +4,8 @@ from cStringIO import StringIO
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
 
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
+
 
 class CSVExport(BrowserView):
     """ view to produce the CSV exports
@@ -38,6 +40,14 @@ class CSVExport(BrowserView):
         ]
         writer.writerow(header)
         for issue in issues:
+            obj = issue.getObject()
+            chv = ContentHistoryViewlet(obj, self.request, None, None)
+            # These attributes are needed, the fullHistory()
+            # call fails otherwise
+            chv.navigation_root_url = chv.site_url = 'http://www.re-trans.com'
+            history = chv.fullHistory()
+            last_actor = history[0]['actor'].get('fullname', 'username')
+
             row = []
             row.append(issue.getId)
             row.append(issue.Title)
@@ -49,7 +59,7 @@ class CSVExport(BrowserView):
             row.append(issue.getDueDate)
             row.append("|".join(issue.Subject))
             row.append(issue.review_state.encode('utf-8'))
-            row.append('')
+            row.append(last_actor.encode('utf-8'))
             row.append(issue.modified)
             row.append(issue.getRelease.encode('utf-8'))
             row.append(
