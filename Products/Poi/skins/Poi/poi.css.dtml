@@ -238,4 +238,11 @@ ul.issue-tags-tags a {
     color: &dtml-linkColor;;
 }
 
+.sorted-header {
+    white-space: nowrap;
+}
+
+.sorted-header img {
+    padding: 5px;
+}
 /* </dtml-with> */
