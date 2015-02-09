@@ -1,4 +1,5 @@
 import csv
+import dateutil
 from cStringIO import StringIO
 
 from Acquisition import aq_inner
@@ -46,7 +47,9 @@ class CSVExport(BrowserView):
             # call fails otherwise
             chv.navigation_root_url = chv.site_url = 'http://www.re-trans.com'
             history = chv.fullHistory()
-            last_actor = history[0]['actor'].get('fullname', 'username')
+            last_actor = history[0].get('actor') or history[0].get('actorid')
+            if isinstance(last_actor, dict):
+                last_actor = last_actor.get('fullname', 'username')
 
             row = []
             row.append(issue.getId)
@@ -60,11 +63,15 @@ class CSVExport(BrowserView):
             row.append("|".join(issue.Subject))
             row.append(issue.review_state.encode('utf-8'))
             row.append(last_actor.encode('utf-8'))
-            row.append(issue.modified)
+            row.append(dateutil.parser.parse(
+                issue.modified.ISO()).strftime('%Y-%m-%d %H:%M:%S')
+            )
             row.append(issue.getRelease.encode('utf-8'))
             row.append(
                 pas_member.info(issue.Creator)['name_or_id'].encode('utf-8'))
-            row.append(issue.CreationDate)
+            row.append(dateutil.parser.parse(
+                issue.CreationDate).strftime('%Y-%m-%d %H:%M:%S')
+            )
             writer.writerow(row)
         value = buffer.getvalue()
         value = unicode(value, "utf-8").encode("iso-8859-1", "replace")
