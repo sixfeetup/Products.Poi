@@ -1,4 +1,6 @@
 jQuery(function($) {
+    $("#archetypes-fieldname-dueDate.error .fieldErrorBox").text("Enter a required due date using the MM/DD/YYYY format.");
+    
     // No overlays for IE6
     if (!jQuery.browser.msie ||
         parseInt(jQuery.browser.version, 10) >= 7) {

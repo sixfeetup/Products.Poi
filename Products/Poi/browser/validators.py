@@ -12,11 +12,6 @@ class DateValidator:
         self.name = name
 
     def __call__(self, value, *args, **kwargs):
-        # field = kwargs.get('field', None)
-        # if field:
-        #     maxlength = field.widget.maxlength
-        # if maxlength:
-        #     return True if len(value) == maxlength else "Value does have have %s characters" % maxlength
         try:
             datetime.strptime(value, '%m/%d/%Y')
         except:
