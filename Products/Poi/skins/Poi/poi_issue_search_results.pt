@@ -6,6 +6,8 @@
 
   <metal:block define-slot="rss-button">
     <div tal:condition="rssQueryString | nothing" class="issue-search-rss">
+      <button id="export-btn"
+          tal:attributes="onclick string:window.location.href='${here/absolute_url}/@@poi-issue-export?${rssQueryString}'">Export CSV</button>
       <a href="" tal:attributes="href string:${here/absolute_url}/poi-issue-search-rss.xml?${rssQueryString}">
         <img i18n:attributes="title title_rss_feed; alt label_rss_feed;"
              tal:attributes="src string:$portal_url/rss.gif"
@@ -13,8 +15,6 @@
              alt="RSS Feed"
              title="RSS feed of these search results" />
       </a>
-        <button id="export-btn"
-            tal:attributes="onclick string:window.location.href='${here/absolute_url}/@@poi-issue-export?${rssQueryString}'">Export CSV</button>
     </div>
   </metal:block>
 

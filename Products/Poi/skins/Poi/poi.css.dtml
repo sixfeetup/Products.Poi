@@ -40,10 +40,6 @@
 
 /* Search table */
 
-#export-btn {
-    display:inline;
-}
-
 .issue-search-results {
     width: 100%;
 }
@@ -53,6 +49,12 @@
     position: relative;
     top: 5px;
     clear: both;
+}
+#content .issue-search-rss a:link {
+    display: block;
+    border-bottom: none;
+    text-align: right;
+    margin-top: 5px;
 }
 
 #poi_advanced_search {
