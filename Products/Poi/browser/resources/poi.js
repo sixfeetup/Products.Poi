@@ -20,7 +20,7 @@ jQuery(function($) {
     var headers = $('.issue-search-results thead th');
     // map headers to sort types
     var sortheaders = {
-        0 : 'id',
+        0 : 'sortable_int_id',
         1 : 'sortable_title',
         2 : 'getRelease',
         3 : 'getArea',

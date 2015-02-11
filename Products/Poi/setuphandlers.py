@@ -22,7 +22,8 @@ def add_catalog_indexes(context, logger=None):
     catalog = getToolByName(context, 'portal_catalog')
     indexes = catalog.indexes()
     wanted = ("getRelease", "getArea", "getIssueType", "getSeverity",
-              "getTargetRelease", "getResponsibleManager", "getDueDate")
+              "getTargetRelease", "getResponsibleManager", "getDueDate",
+              "sortable_int_id")
 
     missing = [w for w in wanted if w not in indexes]
     if missing:

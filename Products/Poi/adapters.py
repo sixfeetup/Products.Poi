@@ -14,6 +14,8 @@ from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import implements
 
+from plone.indexer.decorator import indexer
+
 from Products.Poi.interfaces import IIssue
 
 logger = logging.getLogger('Products.Poi.adapters')
@@ -201,3 +203,11 @@ class EmptyExporter(object):
 
     def export(self, export_context, subdir, root=False):
         return
+
+
+@indexer(IIssue)
+def sortable_int_id(object, **kw):
+    try:
+        return int(object.getId())
+    except ValueError:
+        return None

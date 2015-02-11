@@ -84,6 +84,8 @@
       for="Products.Poi.interfaces.IIssue"
       />
 
+  <adapter name="sortable_int_id" factory="Products.Poi.adapters.sortable_int_id" />
+
   <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
   <five:deprecatedManageAddDelete
       class=".content.PoiTracker.PoiTracker" />
