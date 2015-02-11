@@ -39,7 +39,7 @@ setup(name='Products.Poi',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'dateutil',
+          'python-dateutil',
           'Products.CMFPlone>=4.0b1',
           'Products.AddRemoveWidget>=1.4.2',
           'Products.DataGridField>=1.8b1',
