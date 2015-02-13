@@ -4,8 +4,72 @@ from cStringIO import StringIO
 
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
+from Products.CMFCore.utils import getToolByName
 
-from plone.app.layout.viewlets.content import ContentHistoryViewlet
+
+from AccessControl import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
+
+
+class UnrestrictedUser(BaseUnrestrictedUser):
+    """Unrestricted user that still has an id.
+    """
+    def getId(self):
+        """Return the ID of the user.
+        """
+        return self.getUserName()
+
+
+def execute_under_special_role(portal, role, function, *args, **kwargs):
+    """ Execute code under special role privileges.
+
+    Example how to call::
+
+        execute_under_special_role(portal, "Manager",
+            doSomeNormallyNotAllowedStuff,
+            source_folder, target_folder)
+
+
+    @param portal: Reference to ISiteRoot object whose access controls we are
+                    using
+
+    @param function: Method to be called with special privileges
+
+    @param role: User role for the security context when calling the
+                 privileged code; e.g. "Manager".
+
+    @param args: Passed to the function
+
+    @param kwargs: Passed to the function
+    """
+
+    sm = getSecurityManager()
+
+    try:
+        try:
+            # Clone the current user and assign a new role.
+            # Note that the username (getId()) is left in exception
+            # tracebacks in the error_log,
+            # so it is an important thing to store.
+            tmp_user = UnrestrictedUser(
+                sm.getUser().getId(), '', [role], ''
+                )
+
+            # Wrap the user in the acquisition context of the portal
+            tmp_user = tmp_user.__of__(portal.acl_users)
+            newSecurityManager(None, tmp_user)
+
+            # Call the function
+            return function(*args, **kwargs)
+
+        except:
+            # If special exception handlers are needed, run them here
+            raise
+    finally:
+        # Restore the old security manager
+        setSecurityManager(sm)
 
 
 class CSVExport(BrowserView):
@@ -40,16 +104,38 @@ class CSVExport(BrowserView):
             'Submitted date/time',
         ]
         writer.writerow(header)
+        # to get the previous person who changed something
+        # we need to get workflow and revision history
+        rt = getToolByName(context, "portal_repository", None)
+        workflow = getToolByName(context, 'portal_workflow')
+        mt = getToolByName(self.context, 'portal_membership')
         for issue in issues:
             obj = issue.getObject()
-            chv = ContentHistoryViewlet(obj, self.request, None, None)
-            # These attributes are needed, the fullHistory()
-            # call fails otherwise
-            chv.navigation_root_url = chv.site_url = 'http://www.re-trans.com'
-            history = chv.fullHistory()
-            last_actor = history[0].get('actor') or history[0].get('actorid')
-            if isinstance(last_actor, dict):
-                last_actor = last_actor.get('fullname', 'username')
+            review_history = execute_under_special_role(
+                context,
+                'Manager',
+                workflow.getInfoFor,
+                obj,
+                'review_history')
+            version_history = []
+            history = rt.getHistoryMetadata(obj)
+            if history:
+                retrieve = history.retrieve
+                for i in xrange(
+                        history.getLength(countPurged=False)-1, -1, -1):
+                    vdata = retrieve(i, countPurged=False)
+                    meta = vdata["metadata"]["sys_metadata"]
+                    info = dict(
+                        actor=meta["principal"],
+                        time=meta["timestamp"]
+                    )
+                    version_history.append(info)
+            full_history = review_history + version_history
+            full_history.sort(key=lambda x: x["time"], reverse=True)
+            last_actor = full_history[0]["actor"]
+            actor_info = mt.getMemberInfo(last_actor)
+            if actor_info and actor_info.get("fullname", None):
+                last_actor = actor_info["fullname"]
 
             row = []
             row.append(issue.getId)
