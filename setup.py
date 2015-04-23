@@ -45,6 +45,7 @@ setup(name='Products.Poi',
           'Products.DataGridField>=1.8b1',
           'collective.watcherlist>=0.2',
           'Products.PopupCalendarWidget',
+          'Products.OrderableReferenceField',
       ],
       extras_require={
           'test': [
