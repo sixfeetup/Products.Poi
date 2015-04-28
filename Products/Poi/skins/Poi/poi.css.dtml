@@ -160,6 +160,10 @@ ul.issue-tags-tags a {
     display: inline;
 }
 
+#related-issues {
+    margin-bottom: 1.5em;
+}
+
 /* Different response types */
 
 .response-clarification {
