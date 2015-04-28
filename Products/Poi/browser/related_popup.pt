@@ -24,6 +24,20 @@
                   image_method widget/image_method|string:image_icon;
                   ">
 
+    <style type="text/css">
+        .field.search {
+            float: left;
+            width: 25%;
+            margin-right: 5%;
+            padding-top: 20px;
+        }
+        .field.search input,
+        .field.search select {
+            margin-bottom: 10px;
+            width: 95% !important;
+        }
+    </style>
+    
     <div id="atrefbrowserpopup-top-helper"
          tal:condition="widget/top_popup_helper"
 
@@ -54,7 +68,7 @@
           style="text-align: right;"          tal:attributes="action request/getURL">
      <tal:formactions
           tal:condition="widget/allow_search">
-      <div class="field" >
+      <div class="field search">
         <tal:indexes condition="widget/show_indexes">
         <label i18n:translate="referencebrowser_search_index_label">
              Search index
@@ -91,17 +105,15 @@
                                 placeholder referencebrowser_search_site"
                tal:attributes="value search_id_text;"
                />
-        <input type="text"
-               id="search-tags"
-               name="searchValueTag"
-               size="25"
-               title="Search Site"
-               placeholder="Search Issue Tags"
-               value=""
-               i18n:attributes="title referencebrowser_search_site;
-                                placeholder referencebrowser_search_site"
-               tal:attributes="value search_tag_text;"
-               />
+        <select id="search-tags"
+                name="searchValueTag"
+                tal:define="tags here/getTagsInUse">
+          <option value="">Search Issue Tags</option>
+          <option tal:repeat="item tags"
+                  tal:attributes="value item;
+                                  selected python:item == search_tag_text and 'selected' or None"
+                  tal:content="item" />
+        </select>
         <input type="text"
                id="search-titles"
                name="searchValue"
@@ -188,7 +200,7 @@
          id="atrbNoResults"
          i18n:translate="referencebrowser_no_items_found">No items found.</p>
 
-      <table class="group" width="100%" cellspacing="0" cellpadding="2"
+      <table class="group" width="70%" cellspacing="0" cellpadding="2"
          tal:condition="batch"
          id="atrbResultsTable">
          <colgroup>
